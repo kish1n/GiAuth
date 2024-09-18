@@ -11,21 +11,22 @@ allOf:
           - password
           - email
           - first_name
-          - last_name
           - middle_name
+          - last_name
+          - birthday
         properties:
           password:
             type: string
             description: Encrypted user password
           email:
-            type: email
+            type: mail.Address
             description: User email
             example: example@gmail.com
           first_name:
             type: string
             description: User name
             example: Tyler
-          second_name:
+          last_name:
             type: string
             description: User surname or if user haven`t surname it`s can be patronymic
             example: Shevchenko
@@ -33,5 +34,7 @@ allOf:
             type: string
             description: Can be null, patronymic, middle name, mother's surname, else
             example: Albertovich
-
-
+          birthday:
+            type: time.Time
+            description: User birthday
+            example: "2005-10-13"

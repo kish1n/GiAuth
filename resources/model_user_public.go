@@ -4,27 +4,17 @@
 
 package resources
 
+import "net/mail"
+
 type UserPublic struct {
-	Key
-}
-type UserPublicResponse struct {
-	Data     UserPublic `json:"data"`
-	Included Included   `json:"included"`
-}
-
-type UserPublicListResponse struct {
-	Data     []UserPublic `json:"data"`
-	Included Included     `json:"included"`
-	Links    *Links       `json:"links"`
-}
-
-// MustUserPublic - returns UserPublic from include collection.
-// if entry with specified key does not exist - returns nil
-// if entry with specified key exists but type or ID mismatches - panics
-func (c *Included) MustUserPublic(key Key) *UserPublic {
-	var userPublic UserPublic
-	if c.tryFindEntry(key, &userPublic) {
-		return &userPublic
-	}
-	return nil
+	// User email
+	Email mail.Address `json:"email"`
+	// User name
+	FirstName string `json:"first_name"`
+	// User surname or if user haven`t surname it`s can be patronymic
+	LastName string `json:"last_name"`
+	// Can be null, patronymic, middle name, mother's surname, else
+	MiddleName string `json:"middle_name"`
+	// unique user identifier is available to all
+	Username string `json:"username"`
 }

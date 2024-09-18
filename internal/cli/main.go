@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"context"
 	"github.com/alecthomas/kingpin"
 	"github.com/kish1n/GiAuth/internal/config"
 	"github.com/kish1n/GiAuth/internal/service"
@@ -39,7 +40,8 @@ func Run(args []string) bool {
 
 	switch cmd {
 	case serviceCmd.FullCommand():
-		service.Run(cfg)
+		ctx := context.Background()
+		service.Run(ctx, cfg)
 	case migrateUpCmd.FullCommand():
 		err = MigrateUp(cfg)
 	case migrateDownCmd.FullCommand():

@@ -5,7 +5,7 @@ required:
 properties:
   errors:
     type: array
-    description: Non empty array of errors occurred during request processing
+    description: Non empty array of errors occurred during requests processing
     items:
       type: object
       required:
