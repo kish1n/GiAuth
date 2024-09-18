@@ -1,0 +1,41 @@
+post:
+  tags:
+    - Authentication
+  summary: Authentication user
+  description:
+    Authentication user
+  operationId: authentication
+  requestBody:
+    content:
+      application/vnd.api+json:
+        schema:
+          type: object
+          required:
+            - data
+          properties:
+            data:
+              $ref: '#/components/schemas/UserFormAuth'
+  responses:
+    201:
+      description: Created
+      content:
+        application/vnd.api+json:
+          schema:
+            type: object
+            required:
+              - data
+            properties:
+              data:
+                $ref: '#/components/schemas/UserPublic'
+    400:
+      $ref: '#/components/responses/invalidParameter'
+    401:
+      $ref: '#/components/responses/invalidAuth'
+    409:
+      description: User with this username already exist
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/Errors'
+    500:
+      $ref: '#/components/responses/internalError'

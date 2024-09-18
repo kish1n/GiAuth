@@ -1,8 +1,8 @@
 package cli
 
 import (
-	"github.com/kish1n/KhOn/internal/assets"
-	"github.com/kish1n/KhOn/internal/config"
+	"github.com/kish1n/GiAuth/internal/assets"
+	"github.com/kish1n/GiAuth/internal/config"
 	migrate "github.com/rubenv/sql-migrate"
 	"gitlab.com/distributed_lab/logan/v3/errors"
 )

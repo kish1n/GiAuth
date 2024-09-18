@@ -1,0 +1,124 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "UserRegistered",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "UserUnregistered",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "isRegistered",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "register",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "unregister",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"isRegistered(address)": {
+					"params": {
+						"user": "Адрес для проверки."
+					},
+					"returns": {
+						"_0": "True, если пользователь зарегистрирован, иначе false."
+					}
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {
+				"isRegistered(address)": {
+					"notice": "Проверяет, зарегистрирован ли адрес."
+				},
+				"register()": {
+					"notice": "Регистрирует отправителя как пользователя."
+				},
+				"unregister()": {
+					"notice": "Удаляет регистрацию отправителя."
+				}
+			},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Registration.sol": "Registration"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Registration.sol": {
+			"keccak256": "0x07b0c3d5c991690257bef0f51a4bdc3628a34a30007ff6612c2f8de3f172bdaa",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://6d1b050b2c06ab2c8d381d5d62de1fd597d10b015e611810041136b760ad5339",
+				"dweb:/ipfs/QmUTzanduxmxyjFirdYnKZnrVKEnBa7xfxZUwoNhxdpeFB"
+			]
+		}
+	},
+	"version": 1
+}

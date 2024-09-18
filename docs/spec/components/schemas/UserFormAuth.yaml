@@ -1,0 +1,26 @@
+allOf:
+  - $ref: '#/components/schemas/UserFormAuthKey'
+  - type: object
+    x-go-is-request: true
+    required:
+      - attributes
+    properties:
+      attributes:
+        type: object
+        required:
+          - password
+          - email
+        properties:
+          password:
+            type: string
+            description: Encrypted user password
+          email:
+            type: email
+            description: User email
+            example: example@gmail.com
+          middle_name:
+            type: string
+            description: Can be null, patronymic, middle name, mother's surname, else
+            example: Albertovich
+
+

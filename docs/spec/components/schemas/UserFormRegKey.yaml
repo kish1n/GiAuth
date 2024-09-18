@@ -1,0 +1,11 @@
+type: object
+required:
+  - username
+  - type
+properties:
+  username:
+    type: string
+    description: unique user identifier is available to all
+  type:
+    type: string
+    enum: [ registration ]

@@ -1,24 +1,27 @@
 package service
 
 import (
+	"context"
 	"github.com/go-chi/chi"
-	"github.com/kish1n/KhOn/internal/service/handlers"
+	"github.com/kish1n/GiAuth/internal/config"
+	"github.com/kish1n/GiAuth/internal/service/handlers"
 	"gitlab.com/distributed_lab/ape"
 )
 
-func (s *service) router() chi.Router {
+func Run(ctx context.Context, cfg config.Config) {
 	r := chi.NewRouter()
 
 	r.Use(
-		ape.RecoverMiddleware(s.log),
-		ape.LoganMiddleware(s.log),
+		ape.RecoverMiddleware(cfg.Log()),
+		ape.LoganMiddleware(cfg.Log()),
 		ape.CtxMiddleware(
-			handlers.CtxLog(s.log),
+			handlers.CtxLog(cfg.Log()),
 		),
 	)
-	r.Route("/integrations/KhOn", func(r chi.Router) {
-		// configure endpoints here
+	r.Route("/integrations/GiAuth", func(r chi.Router) {
+		r.Post("/reg", handlers.Registration)
 	})
 
-	return r
+	cfg.Log().Info("Service started")
+	ape.Serve(ctx, r, cfg, ape.ServeOpts{})
 }
