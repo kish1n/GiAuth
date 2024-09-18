@@ -3,8 +3,8 @@
 GENERATOR_IMAGE=tokend/openapi-generator:v0.1.0
 
 
-GENERATED="${GOPATH}/src/github.com/kish1n/KhOn/resources"
-OPENAPI_DIR="${GOPATH}/src/github.com/kish1n/KhOn/docs/web_deploy"
+GENERATED="${GOPATH}/src/github.com/kish1n/GiAuth/resources"
+OPENAPI_DIR="${GOPATH}/src/github.com/kish1n/GiAuth/docs/web_deploy"
 PACKAGE_NAME=resources
 
 function printHelp {

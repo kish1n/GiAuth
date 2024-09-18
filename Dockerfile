@@ -6,7 +6,7 @@ WORKDIR /go/src/github.com/kish1n/KhOn
 COPY vendor .
 COPY . .
 
-RUN GOOS=linux go build  -o /usr/local/bin/KhOn /go/src/github.com/kish1n/KhOn
+RUN GOOS=linux go build  -o /usr/local/bin/GiAuth /go/src/github.com/kish1n/GiAuth
 
 
 FROM alpine:3.9

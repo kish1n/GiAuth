@@ -12,5 +12,5 @@ cop:
   disabled: true
   endpoint: "http://..."
   upstream: "http://..."
-  service_name: KhOn
+  service_name: GiAuth
   service_port: 80

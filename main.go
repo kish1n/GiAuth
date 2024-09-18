@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/kish1n/KhOn/internal/cli"
+	"github.com/kish1n/GiAuth/internal/cli"
 )
 
 func main() {
