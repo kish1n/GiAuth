@@ -17,7 +17,7 @@ allOf:
             type: string
             description: unique user identifier is available to all
           email:
-            type: email
+            type: string
             description: User email
             example: example@gmail.com
           first_name:

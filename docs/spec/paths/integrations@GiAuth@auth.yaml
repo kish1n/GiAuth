@@ -26,7 +26,7 @@ post:
               - data
             properties:
               data:
-                $ref: '#/components/schemas/Authentication'
+                $ref: '#/components/schemas/SuccessAuth'
     400:
       $ref: '#/components/responses/invalidParameter'
     401:

@@ -4,16 +4,11 @@
 
 package resources
 
-import (
-	"net/mail"
-	"time"
-)
-
 type UserFormRegAttributes struct {
 	// User birthday
-	Birthday time.Time `json:"birthday"`
+	Birthday string `json:"birthday"`
 	// User email
-	Email mail.Address `json:"email"`
+	Email string `json:"email"`
 	// User name
 	FirstName string `json:"first_name"`
 	// User surname or if user haven`t surname it`s can be patronymic

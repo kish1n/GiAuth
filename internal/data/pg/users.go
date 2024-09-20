@@ -35,7 +35,6 @@ func (q *users) New() data.UsersQ {
 
 func (q *users) Insert(usr data.User) error {
 	stmt := squirrel.Insert(usersTable).SetMap(map[string]interface{}{
-		"id":            usr.ID,
 		"username":      usr.Username,
 		"email":         usr.Email,
 		"password_hash": usr.PasswordHash,

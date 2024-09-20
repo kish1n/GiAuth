@@ -4,11 +4,9 @@
 
 package resources
 
-import "net/mail"
-
 type UserFormAuthAttributes struct {
 	// User email
-	Email mail.Address `json:"email"`
+	Email string `json:"email"`
 	// Can be null, patronymic, middle name, mother's surname, else
 	MiddleName *string `json:"middle_name,omitempty"`
 	// Encrypted user password

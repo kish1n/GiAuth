@@ -19,6 +19,7 @@ func Run(ctx context.Context, cfg config.Config) {
 		ape.CtxMiddleware(
 			handlers.CtxLog(cfg.Log()),
 		),
+		handlers.DBCloneMiddleware(cfg.DB()),
 	)
 
 	r.Route("/integrations/GiAuth", func(r chi.Router) {

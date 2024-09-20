@@ -4,11 +4,9 @@
 
 package resources
 
-import "net/mail"
-
 type SuccessAuthAttributes struct {
 	// User email
-	Email mail.Address `json:"email"`
+	Email string `json:"email"`
 	// User name
 	FirstName string `json:"first_name"`
 	// User surname or if user haven`t surname it`s can be patronymic

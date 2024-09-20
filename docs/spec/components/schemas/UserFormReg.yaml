@@ -19,7 +19,7 @@ allOf:
             type: string
             description: Encrypted user password
           email:
-            type: mail.Address
+            type: string
             description: User email
             example: example@gmail.com
           first_name:
@@ -35,6 +35,6 @@ allOf:
             description: Can be null, patronymic, middle name, mother's surname, else
             example: Albertovich
           birthday:
-            type: time.Time
+            type: string
             description: User birthday
             example: "2005-10-13"

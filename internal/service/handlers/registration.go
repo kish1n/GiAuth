@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/kish1n/GiAuth/internal/data"
 	"github.com/kish1n/GiAuth/internal/service/requests"
 	"github.com/kish1n/GiAuth/internal/service/security"
@@ -17,7 +18,7 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 		ape.RenderErr(w, problems.BadRequest(err)...)
 		return
 	}
-
+	//TODO add check email uniq
 	usernameOnce, err := UsersQ(r).FilterByUsername(req.Data.ID).Get()
 	if err != nil {
 		Log(r).WithError(err).Error("Error filter by username")
@@ -30,7 +31,14 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if !CheckAge(14, req.Data.Attributes.Birthday) {
+	birthday, err := ParseShortDate(req.Data.Attributes.Birthday)
+	if err != nil {
+		Log(r).WithError(err).Error("Invalid date format")
+		ape.RenderErr(w, problems.BadRequest(err)...)
+		return
+	}
+
+	if !CheckAge(14, birthday) {
 		Log(r).Errorf("User younger than %v user's date of birth %s", 14, req.Data.Attributes.Birthday)
 		ape.RenderErr(w, problems.Forbidden())
 		return
@@ -50,7 +58,7 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 		FirstName:    req.Data.Attributes.FirstName,
 		LastName:     req.Data.Attributes.LastName,
 		MiddleName:   req.Data.Attributes.MiddleName,
-		Birthday:     req.Data.Attributes.Birthday,
+		Birthday:     birthday,
 	}
 
 	err = UsersQ(r).Insert(user)
@@ -66,6 +74,15 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ape.Render(w, SuccessUserReg(newUser))
+}
+
+func ParseShortDate(birthdayStr string) (time.Time, error) {
+	const layout = "2006-01-02"
+	parsedTime, err := time.Parse(layout, birthdayStr)
+	if err != nil {
+		return time.Time{}, fmt.Errorf("invalid date format: %v", err)
+	}
+	return parsedTime, nil
 }
 
 func CheckAge(age int, birthDate time.Time) bool {

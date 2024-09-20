@@ -15,7 +15,7 @@ allOf:
             type: string
             description: Encrypted user password
           email:
-            type: email
+            type: string
             description: User email
             example: example@gmail.com
           middle_name:
