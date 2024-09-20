@@ -2,6 +2,8 @@ package middleware
 
 import (
 	"context"
+	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/golang-jwt/jwt"
@@ -15,7 +17,8 @@ func JWTMiddleware(cfg config.Config) func(http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			cookie, err := r.Cookie("jwt_token")
 			if err != nil {
-				if err == http.ErrNoCookie {
+				if errors.Is(err, http.ErrNoCookie) {
+					fmt.Printf("No cookie")
 					ape.RenderErr(w, problems.Unauthorized())
 					return
 				}
@@ -27,7 +30,7 @@ func JWTMiddleware(cfg config.Config) func(http.Handler) http.Handler {
 
 			claims := &jwt.StandardClaims{}
 			token, err := jwt.ParseWithClaims(tokenStr, claims, func(token *jwt.Token) (interface{}, error) {
-				return cfg.JWT().SecretKey, nil
+				return []byte(cfg.JWT().SecretKey), nil
 			})
 
 			if err != nil || !token.Valid {

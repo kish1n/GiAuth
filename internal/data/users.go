@@ -29,4 +29,5 @@ type UsersQ interface {
 	Count() (int64, error)
 
 	FilterByUsername(...string) UsersQ
+	FilterByEmail(...string) UsersQ
 }

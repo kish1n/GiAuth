@@ -97,6 +97,10 @@ func (q *users) FilterByUsername(username ...string) data.UsersQ {
 	return q.applyCondition(squirrel.Eq{"username": username})
 }
 
+func (q *users) FilterByEmail(email ...string) data.UsersQ {
+	return q.applyCondition(squirrel.Eq{"email": email})
+}
+
 func (q *users) applyCondition(cond squirrel.Sqlizer) data.UsersQ {
 	q.selector = q.selector.Where(cond)
 	q.updater = q.updater.Where(cond)

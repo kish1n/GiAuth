@@ -18,7 +18,7 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 		ape.RenderErr(w, problems.BadRequest(err)...)
 		return
 	}
-	//TODO add check email uniq
+
 	usernameOnce, err := UsersQ(r).FilterByUsername(req.Data.ID).Get()
 	if err != nil {
 		Log(r).WithError(err).Error("Error filter by username")
@@ -27,6 +27,18 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 	}
 	if usernameOnce != nil {
 		Log(r).Errorf("User with this username: %s, already exit", req.Data.ID)
+		ape.RenderErr(w, problems.Conflict())
+		return
+	}
+
+	emailOnce, err := UsersQ(r).FilterByEmail(req.Data.Attributes.Email).Get()
+	if err != nil {
+		Log(r).WithError(err).Error("Error filter by email")
+		ape.RenderErr(w, problems.InternalError())
+		return
+	}
+	if emailOnce != nil {
+		Log(r).Errorf("User with this email: %s, already exit", req.Data.Attributes.Email)
 		ape.RenderErr(w, problems.Conflict())
 		return
 	}
