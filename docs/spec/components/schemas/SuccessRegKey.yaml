@@ -1,0 +1,11 @@
+type: object
+required:
+  - id
+  - type
+properties:
+  id:
+    type: string
+    description: Secret JWT user token
+  type:
+    type: string
+    enum: [ success_reg ]

@@ -14,3 +14,7 @@ cop:
   upstream: "http://..."
   service_name: GiAuth
   service_port: 80
+
+jwt:
+  secret_key: "SECRET"
+  expiration_time: 24h

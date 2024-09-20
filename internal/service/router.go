@@ -5,7 +5,9 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/kish1n/GiAuth/internal/config"
 	"github.com/kish1n/GiAuth/internal/service/handlers"
+	"github.com/kish1n/GiAuth/internal/service/middleware"
 	"gitlab.com/distributed_lab/ape"
+	"net/http"
 )
 
 func Run(ctx context.Context, cfg config.Config) {
@@ -18,8 +20,16 @@ func Run(ctx context.Context, cfg config.Config) {
 			handlers.CtxLog(cfg.Log()),
 		),
 	)
+
 	r.Route("/integrations/GiAuth", func(r chi.Router) {
 		r.Post("/reg", handlers.Registration)
+		r.Post("/auth", func(w http.ResponseWriter, r *http.Request) {
+			handlers.Authentication(w, r, cfg)
+		})
+		r.Group(func(r chi.Router) {
+			r.Use(middleware.JWTMiddleware(cfg))
+			r.Get("/protected", handlers.ProtectedHandler)
+		})
 	})
 
 	cfg.Log().Info("Service started")

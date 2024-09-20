@@ -1,0 +1,34 @@
+allOf:
+  - $ref: '#/components/schemas/SuccessRegKey'
+  - type: object
+    required:
+      - attributes
+    properties:
+      attributes:
+        type: object
+        required:
+          - username
+          - email
+          - first_name
+          - last_name
+          - middle_name
+        properties:
+          username:
+            type: string
+            description: unique user identifier is available to all
+          email:
+            type: email
+            description: User email
+            example: example@gmail.com
+          first_name:
+            type: string
+            description: User name
+            example: Tyler
+          last_name:
+            type: string
+            description: User surname or if user haven`t surname it`s can be patronymic
+            example: Shevchenko
+          middle_name:
+            type: string
+            description: Can be null, patronymic, middle name, mother's surname, else
+            example: Albertovich

@@ -60,21 +60,34 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ape.Render(w, SuccessUserAuth(user))
-}
-
-func SuccessUserAuth(user data.User) resources.UserPublic {
-	return resources.UserPublic{
-		Username:   user.Username,
-		Email:      user.Email,
-		FirstName:  user.FirstName,
-		MiddleName: user.MiddleName,
-		LastName:   user.LastName,
+	newUser, err := UsersQ(r).FilterByUsername(req.Data.ID).Get()
+	if err != nil {
+		Log(r).WithError(err).Error("")
 	}
+
+	ape.Render(w, SuccessUserReg(newUser))
 }
 
 func CheckAge(age int, birthDate time.Time) bool {
 	now := time.Now().UTC()
 	ageDate := birthDate.AddDate(age, 0, 0)
 	return !now.Before(ageDate)
+}
+
+func SuccessUserReg(user *data.User) resources.SuccessAuthResponse {
+	return resources.SuccessAuthResponse{
+		Data: resources.SuccessAuth{
+			Key: resources.Key{
+				ID:   user.Username,
+				Type: resources.SUCCESS_REG,
+			},
+			Attributes: resources.SuccessAuthAttributes{
+				Email:      user.Email,
+				FirstName:  user.FirstName,
+				LastName:   user.LastName,
+				MiddleName: user.MiddleName,
+				Username:   user.Username,
+			},
+		},
+	}
 }
