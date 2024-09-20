@@ -29,7 +29,8 @@ func Run(ctx context.Context, cfg config.Config) {
 		})
 		r.Group(func(r chi.Router) {
 			r.Use(middleware.JWTMiddleware(cfg))
-			r.Get("/protected", handlers.ProtectedHandler)
+			r.Get("/test", handlers.ProtectedHandler)
+			r.Get("/logout", handlers.Logout)
 		})
 	})
 
