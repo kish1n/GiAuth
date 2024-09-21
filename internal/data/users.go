@@ -9,6 +9,7 @@ type User struct {
 	ID           uuid.UUID `db:"id"`
 	Username     string    `db:"username"`
 	Email        string    `db:"email"`
+	EmailStatus  bool      `db:"email_status"`
 	PasswordHash string    `db:"password_hash"`
 	FirstName    string    `db:"first_name"`
 	MiddleName   string    `db:"middle_name"`

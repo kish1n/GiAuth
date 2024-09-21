@@ -10,17 +10,37 @@ import (
 )
 
 func CheckActivatingEmail(w http.ResponseWriter, r *http.Request) {
-	user, ok := r.Context().Value("user").(string)
+	username, ok := r.Context().Value("user").(string)
 	if !ok {
-		Log(r).Infof(user)
 		ape.RenderErr(w, problems.Unauthorized())
 		return
 	}
 
 	code := strings.ToLower(chi.URLParam(r, "code"))
 
-	if !security.CheckInEmailList(user, code) {
+	if !security.CheckInEmailList(username, code) {
 		ape.RenderErr(w, problems.Forbidden())
+		return
+	}
+
+	user, err := UsersQ(r).FilterByEmail(username).Get()
+	if err != nil {
+		Log(r).WithError(err).Error("Error get user")
+		ape.RenderErr(w, problems.InternalError())
+		return
+	}
+	if user == nil {
+		Log(r).Errorf("User not found by id:%s", username)
+		ape.RenderErr(w, problems.NotFound())
+		return
+	}
+
+	err = UsersQ(r).FilterByEmail(username).Update(map[string]any{
+		"email_status": true,
+	})
+	if err != nil {
+		Log(r).WithError(err).Error("Error update email status")
+		ape.RenderErr(w, problems.InternalError())
 		return
 	}
 
