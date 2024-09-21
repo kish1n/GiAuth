@@ -31,6 +31,8 @@ func Run(ctx context.Context, cfg config.Config) {
 			r.Use(middleware.JWTMiddleware(cfg))
 			r.Get("/test", handlers.ProtectedHandler)
 			r.Get("/logout", handlers.Logout)
+			r.Get("/activate_email", handlers.GetActivateEmail)
+			r.Put("/activate_email/{code}", handlers.CheckActivatingEmail)
 		})
 	})
 
