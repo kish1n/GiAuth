@@ -1,0 +1,14 @@
+allOf:
+  - $ref: '#/components/schemas/ValidateTotpKey'
+  - type: object
+    required:
+      - attributes
+    properties:
+      attributes:
+        type: object
+        required:
+          - code
+        properties:
+          code:
+            type: string
+            description: code from auth app

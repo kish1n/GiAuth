@@ -2,9 +2,10 @@ package handlers
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/kish1n/GiAuth/internal/data/pg"
 	"gitlab.com/distributed_lab/kit/pgdb"
-	"net/http"
 )
 
 func DBCloneMiddleware(db *pgdb.DB) func(http.Handler) http.Handler {

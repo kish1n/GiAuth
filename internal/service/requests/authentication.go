@@ -2,9 +2,10 @@ package requests
 
 import (
 	"encoding/json"
+	"net/http"
+
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/kish1n/GiAuth/resources"
-	"net/http"
 )
 
 func NewAuthentication(r *http.Request) (req resources.UserFormAuthRequest, err error) {

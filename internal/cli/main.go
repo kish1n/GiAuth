@@ -2,6 +2,7 @@ package cli
 
 import (
 	"context"
+
 	"github.com/alecthomas/kingpin"
 	"github.com/kish1n/GiAuth/internal/config"
 	"github.com/kish1n/GiAuth/internal/service"

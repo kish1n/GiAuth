@@ -2,9 +2,10 @@ package cli
 
 import (
 	"context"
+	"sync"
+
 	"github.com/kish1n/GiAuth/internal/config"
 	"github.com/kish1n/GiAuth/internal/service"
-	"sync"
 )
 
 func runServices(ctx context.Context, cfg config.Config, wg *sync.WaitGroup) {

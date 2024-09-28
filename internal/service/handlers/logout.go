@@ -1,10 +1,11 @@
 package handlers
 
 import (
-	"github.com/kish1n/GiAuth/resources"
-	"gitlab.com/distributed_lab/ape/problems"
 	"net/http"
 	"time"
+
+	"github.com/kish1n/GiAuth/resources"
+	"gitlab.com/distributed_lab/ape/problems"
 
 	"gitlab.com/distributed_lab/ape"
 )

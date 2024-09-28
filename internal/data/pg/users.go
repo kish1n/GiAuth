@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+
 	"github.com/kish1n/GiAuth/internal/data"
 
 	"github.com/Masterminds/squirrel"
@@ -38,6 +39,7 @@ func (q *users) Insert(usr data.User) error {
 		"username":      usr.Username,
 		"email":         usr.Email,
 		"password_hash": usr.PasswordHash,
+		"secret_key":    usr.SecretKey,
 		"first_name":    usr.FirstName,
 		"last_name":     usr.LastName,
 		"middle_name":   usr.MiddleName,

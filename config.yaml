@@ -3,7 +3,7 @@ log:
   disable_sentry: true
 
 db:
-  url: db_url
+  url: postgres://users:users@localhost:5555/users?sslmode=disable #example
 
 listener:
   addr: :8000
@@ -16,5 +16,9 @@ cop:
   service_port: 80
 
 jwt:
-  secret_key: "SECRET"
+  secret_key: "TkuYzT5B+R+EhAtGoqsFYnXIiOxDUuiBF722CZFOnRc=" #example
   expiration_time: 24h
+
+email:
+  password: "secret"
+  email: "example@gmail.com"

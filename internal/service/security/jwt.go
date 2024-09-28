@@ -1,10 +1,11 @@
 package security
 
 import (
+	"time"
+
 	"github.com/golang-jwt/jwt"
 	"github.com/kish1n/GiAuth/internal/config"
 	"github.com/kish1n/GiAuth/internal/data"
-	"time"
 )
 
 func GenerateJWT(user *data.User, cfg config.Config) (string, error) {

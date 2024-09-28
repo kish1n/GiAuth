@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"net/http"
+	"time"
+
 	"github.com/kish1n/GiAuth/internal/config"
 	"github.com/kish1n/GiAuth/internal/data"
 	"github.com/kish1n/GiAuth/internal/service/requests"
@@ -8,8 +11,6 @@ import (
 	"github.com/kish1n/GiAuth/resources"
 	"gitlab.com/distributed_lab/ape"
 	"gitlab.com/distributed_lab/ape/problems"
-	"net/http"
-	"time"
 )
 
 func Authentication(w http.ResponseWriter, r *http.Request, cfg config.Config) {
@@ -26,7 +27,33 @@ func Authentication(w http.ResponseWriter, r *http.Request, cfg config.Config) {
 		return
 	}
 
-	if !security.CheckPasswordHash(req.Data.Attributes.Password, user.PasswordHash) {
+	if user.EmailStatus {
+		Log(r).Info("Address is verified. Sending confirmation for login attempt.")
+
+		code, err := security.GenerateConfirmationCode()
+		if err != nil {
+			Log(r).WithError(err).Error("Error generating confirmation code")
+			ape.RenderErr(w, problems.InternalError())
+			return
+		}
+
+		err = security.SendLoginAttemptEmail(user.Email, code, cfg)
+		if err != nil {
+			Log(r).WithError(err).Error("Error sending login confirmation email")
+			ape.RenderErr(w, problems.InternalError())
+			return
+		}
+
+		w.WriteHeader(http.StatusFound)
+		return
+	}
+
+	if user.TwoFactorAuth {
+		Log(r).Infof("two factor auth")
+		//TODO
+	}
+
+	if !security.CheckHashString(req.Data.Attributes.Password, user.PasswordHash) {
 		Log(r).WithError(err).Error("Password or login incorrect")
 		ape.RenderErr(w, problems.Forbidden())
 		return

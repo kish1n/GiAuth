@@ -13,4 +13,5 @@ const (
 	SUCCESS_REG    ResourceType = "success_reg"
 	AUTHENTICATION ResourceType = "authentication"
 	REGISTRATION   ResourceType = "registration"
+	VALIDATE_TOTP  ResourceType = "validate_totp"
 )

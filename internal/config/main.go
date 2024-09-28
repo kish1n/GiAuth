@@ -15,6 +15,7 @@ type Config interface {
 	comfig.Listenerer
 
 	JWT() *JWT
+	Email() *Email
 }
 
 type config struct {
@@ -25,6 +26,7 @@ type config struct {
 
 	getter kv.Getter
 	jwt    comfig.Once
+	email  comfig.Once
 }
 
 func New(getter kv.Getter) Config {

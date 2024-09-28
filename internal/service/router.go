@@ -2,12 +2,13 @@ package service
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/go-chi/chi"
 	"github.com/kish1n/GiAuth/internal/config"
 	"github.com/kish1n/GiAuth/internal/service/handlers"
 	"github.com/kish1n/GiAuth/internal/service/middleware"
 	"gitlab.com/distributed_lab/ape"
-	"net/http"
 )
 
 func Run(ctx context.Context, cfg config.Config) {
@@ -24,15 +25,28 @@ func Run(ctx context.Context, cfg config.Config) {
 
 	r.Route("/integrations/GiAuth", func(r chi.Router) {
 		r.Post("/reg", handlers.Registration)
-		r.Post("/auth", func(w http.ResponseWriter, r *http.Request) {
-			handlers.Authentication(w, r, cfg)
+		r.Route("/auth", func(r chi.Router) {
+			r.Post("/", func(w http.ResponseWriter, r *http.Request) {
+				handlers.Authentication(w, r, cfg)
+			})
+			r.Post("/{email}/{code}", func(w http.ResponseWriter, r *http.Request) {
+				handlers.AuthByEmail(w, r, cfg)
+			})
 		})
-		r.Group(func(r chi.Router) {
+		r.Route("/public", func(r chi.Router) {
 			r.Use(middleware.JWTMiddleware(cfg))
 			r.Get("/test", handlers.ProtectedHandler)
 			r.Get("/logout", handlers.Logout)
-			r.Get("/activate_email", handlers.GetActivateEmail)
-			r.Put("/activate_email/{code}", handlers.CheckActivatingEmail)
+			r.Route("/email", func(r chi.Router) {
+				r.Post("/", func(w http.ResponseWriter, r *http.Request) {
+					handlers.GetActivateEmail(w, r, cfg)
+				})
+				r.Patch("/{code}", handlers.CheckActivatingEmail)
+			})
+			r.Route("/google_auth", func(r chi.Router) {
+				r.Get("/get", handlers.GenerateTOTP)
+				r.Get("/validate", handlers.ValidateTOTP)
+			})
 		})
 	})
 

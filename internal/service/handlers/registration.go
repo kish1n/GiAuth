@@ -2,14 +2,15 @@ package handlers
 
 import (
 	"fmt"
+	"net/http"
+	"time"
+
 	"github.com/kish1n/GiAuth/internal/data"
 	"github.com/kish1n/GiAuth/internal/service/requests"
 	"github.com/kish1n/GiAuth/internal/service/security"
 	"github.com/kish1n/GiAuth/resources"
 	"gitlab.com/distributed_lab/ape"
 	"gitlab.com/distributed_lab/ape/problems"
-	"net/http"
-	"time"
 )
 
 func Registration(w http.ResponseWriter, r *http.Request) {
@@ -56,9 +57,16 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	hashPassword, err := security.HashPassword(req.Data.Attributes.Password)
+	hashPassword, err := security.HashString(req.Data.Attributes.Password)
 	if err != nil {
 		Log(r).WithError(err).Error("Password hash error")
+		ape.RenderErr(w, problems.InternalError())
+		return
+	}
+
+	secret, err := security.GenerateTOTPSecret(req.Data.ID)
+	if err != nil {
+		Log(r).WithError(err).Infof("Error generate secretkey")
 		ape.RenderErr(w, problems.InternalError())
 		return
 	}
@@ -67,6 +75,7 @@ func Registration(w http.ResponseWriter, r *http.Request) {
 		Username:     req.Data.ID,
 		Email:        req.Data.Attributes.Email,
 		PasswordHash: hashPassword,
+		SecretKey:    secret,
 		FirstName:    req.Data.Attributes.FirstName,
 		LastName:     req.Data.Attributes.LastName,
 		MiddleName:   req.Data.Attributes.MiddleName,

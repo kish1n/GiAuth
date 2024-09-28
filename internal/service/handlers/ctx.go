@@ -2,8 +2,9 @@ package handlers
 
 import (
 	"context"
-	"github.com/kish1n/GiAuth/internal/data"
 	"net/http"
+
+	"github.com/kish1n/GiAuth/internal/data"
 
 	"gitlab.com/distributed_lab/logan/v3"
 )

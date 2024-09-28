@@ -1,12 +1,13 @@
 package handlers
 
 import (
+	"net/http"
+	"strings"
+
 	"github.com/go-chi/chi"
 	"github.com/kish1n/GiAuth/internal/service/security"
 	"gitlab.com/distributed_lab/ape"
 	"gitlab.com/distributed_lab/ape/problems"
-	"net/http"
-	"strings"
 )
 
 func CheckActivatingEmail(w http.ResponseWriter, r *http.Request) {
@@ -18,12 +19,7 @@ func CheckActivatingEmail(w http.ResponseWriter, r *http.Request) {
 
 	code := strings.ToLower(chi.URLParam(r, "code"))
 
-	if !security.CheckInEmailList(username, code) {
-		ape.RenderErr(w, problems.Forbidden())
-		return
-	}
-
-	user, err := UsersQ(r).FilterByEmail(username).Get()
+	user, err := UsersQ(r).FilterByUsername(username).Get()
 	if err != nil {
 		Log(r).WithError(err).Error("Error get user")
 		ape.RenderErr(w, problems.InternalError())
@@ -35,14 +31,20 @@ func CheckActivatingEmail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = UsersQ(r).FilterByEmail(username).Update(map[string]any{
+	if !security.CheckInEmailList(user.Email, code) {
+		ape.RenderErr(w, problems.Forbidden())
+		return
+	}
+
+	err = UsersQ(r).FilterByUsername(username).Update(map[string]any{
 		"email_status": true,
 	})
+
 	if err != nil {
 		Log(r).WithError(err).Error("Error update email status")
 		ape.RenderErr(w, problems.InternalError())
 		return
 	}
 
-	w.WriteHeader(http.StatusFound)
+	w.WriteHeader(http.StatusAccepted)
 }
